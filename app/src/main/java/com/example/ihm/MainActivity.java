@@ -1,5 +1,6 @@
 package com.example.ihm;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.design.widget.NavigationView;
@@ -72,9 +73,9 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
+        if (id == R.id.nav_home) {
             // Handle the camera action
-            Text.setText("Camera");
+            Text.setText("Accueil");
 
         } else if (id == R.id.nav_gallery) {
             Text.setText("Gallery");
@@ -96,8 +97,9 @@ public class MainActivity extends AppCompatActivity
             FragmentManager fm = getSupportFragmentManager();
             fm.beginTransaction().add(R.id.fragment_container,fragment).addToBackStack("test").commit();
 
-        } else if (id == R.id.nav_manage) {
-            Text.setText("Manage");
+        } else if (id == R.id.nav_connection) {
+            Intent intent = new Intent(getApplicationContext(),GoogleSignInActivity.class);
+            startActivity(intent);
 
         } else if (id == R.id.nav_share) {
             Text.setText("Share");

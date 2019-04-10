@@ -6,7 +6,18 @@
     <string name="nav_header_subtitle">menu.management@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
-
+    <string name="loading">Loading...</string>
     <string name="bottom_navigation_menu_profile">Profil</string>
     <string name="bottom_navigation_menu_restrictions">Mes restrictions</string>
+    <string name="sign_in">S identifier</string>
+    <string name="sign_out">Sign Out</string>
+    <string name="disconnect">Disconnect</string>
+    <string name="signed_in">Signed In</string>
+    <string name="signed_out">Signed Out</string>
+    <string name="firebase_status_fmt">Utilisateur Firebase : %s</string>
+    <string name="firebase_user_management">Firebase User Management</string>
+    <string name="google_status_fmt">Utilisateur Google : %s</string>
+    <string name="google_title_text">Autentification Google</string>
+
+
 </resources>

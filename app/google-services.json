@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "820941684013",
+    "firebase_url": "https://ihm-android-42.firebaseio.com",
+    "project_id": "ihm-android-42",
+    "storage_bucket": "ihm-android-42.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:820941684013:android:0a01983df6b4db1b",
+        "android_client_info": {
+          "package_name": "com.example.ihm"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "820941684013-q8ks0nqtdlt9saj71u85lfhofv9vvmjb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.ihm",
+            "certificate_hash": "7e0797bd51932f9657d2ddb83fcd9bf25862309e"
+          }
+        },
+        {
+          "client_id": "820941684013-kmh70k4f3qepl148jbnfps30gejglffi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCqUMvw-yUgef3cw89okFpKihDnaxh5PHY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "820941684013-kmh70k4f3qepl148jbnfps30gejglffi.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
