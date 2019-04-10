@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_logo"
+        android:enabled="true"
+        android:title="@string/bottom_navigation_menu_profile"
+        android:icon="@drawable/ic_menu_send"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_landscape"
+        android:enabled="true"
+        android:icon="@drawable/ic_menu_camera"
+        android:title="@string/bottom_navigation_menu_restrictions"
+        app:showAsAction="ifRoom" />
+</menu>
