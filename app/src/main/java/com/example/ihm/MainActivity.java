@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        Fragment fragment = null;
+
 
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -34,9 +34,6 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        fragment = new FragmentHome();
-        FragmentManager fm = getSupportFragmentManager();
-        fm.beginTransaction().replace(R.id.fragment_container,fragment).commit();
 
 
     }
@@ -55,6 +52,11 @@ public class MainActivity extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
+        Fragment fragment = null;
+        fragment = new FragmentHome();
+        FragmentManager fm = getSupportFragmentManager();
+        fm.beginTransaction().replace(R.id.fragment_container,fragment).commit();
+
         return true;
     }
 
@@ -86,12 +88,10 @@ public class MainActivity extends AppCompatActivity
             fragment = new FragmentHome();
 
         } else if (id == R.id.nav_menus) {
-
             fragment = new FragmentMenus();
 
 
         } else if (id == R.id.nav_consumption) {
-
             fragment = new FragmentConsumption();
 
         } else if (id == R.id.nav_connection) {

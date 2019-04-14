@@ -9,10 +9,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".BaseActivity"></activity>
-        <activity android:name=".GoogleSignInActivity" />
+        <activity
+            android:name=".BaseActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".GoogleSignInActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".MainActivity"
+            android:screenOrientation="portrait"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -21,6 +26,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".CreateMenuActivity"
+            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>
