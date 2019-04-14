@@ -12,7 +12,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -91,9 +90,9 @@ public class MainActivity extends AppCompatActivity
             fragment = new FragmentMenus();
 
 
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.nav_consumption) {
 
-            fragment = new FragmentSlideshow();
+            fragment = new FragmentConsumption();
 
         } else if (id == R.id.nav_connection) {
             Intent intent = new Intent(getApplicationContext(),GoogleSignInActivity.class);
