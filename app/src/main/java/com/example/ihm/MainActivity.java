@@ -2,6 +2,7 @@ package com.example.ihm;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -15,7 +16,7 @@ import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-    private TextView Text;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +24,8 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        Fragment fragment = null;
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -32,7 +35,11 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        this.Text = (TextView) findViewById(R.id.changetext);
+        fragment = new FragmentHome();
+        FragmentManager fm = getSupportFragmentManager();
+        fm.beginTransaction().replace(R.id.fragment_container,fragment).commit();
+
+
     }
 
     @Override
@@ -71,16 +78,35 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
+
         int id = item.getItemId();
+        Fragment fragment = null;
 
         if (id == R.id.nav_home) {
             // Handle the camera action
-            Text.setText("Accueil");
+            fragment = new FragmentHome();
 
-        } else if (id == R.id.nav_gallery) {
-            Text.setText("Gallery");
+        } else if (id == R.id.nav_menus) {
 
-            FragmentGallery fragment = new FragmentGallery();
+            fragment = new FragmentMenus();
+
+
+        } else if (id == R.id.nav_slideshow) {
+
+            fragment = new FragmentSlideshow();
+
+        } else if (id == R.id.nav_connection) {
+            Intent intent = new Intent(getApplicationContext(),GoogleSignInActivity.class);
+            startActivity(intent);
+
+        } else if (id == R.id.nav_share) {
+
+
+        } else if (id == R.id.nav_send) {
+
+
+        }
+        if (fragment != null) {
             FragmentManager fm = getSupportFragmentManager();
             fm.beginTransaction().replace(R.id.fragment_container,fragment).commit();
 
@@ -89,25 +115,8 @@ public class MainActivity extends AppCompatActivity
                 String name = fManager.getBackStackEntryAt(0).getName();
                 getSupportFragmentManager().popBackStack(name, FragmentManager.POP_BACK_STACK_INCLUSIVE);
             }
-
-        } else if (id == R.id.nav_slideshow) {
-            Text.setText("Slideshow");
-
-            FragmentSlideshow fragment = new FragmentSlideshow();
-            FragmentManager fm = getSupportFragmentManager();
-            fm.beginTransaction().add(R.id.fragment_container,fragment).addToBackStack("test").commit();
-
-        } else if (id == R.id.nav_connection) {
-            Intent intent = new Intent(getApplicationContext(),GoogleSignInActivity.class);
-            startActivity(intent);
-
-        } else if (id == R.id.nav_share) {
-            Text.setText("Share");
-
-        } else if (id == R.id.nav_send) {
-            Text.setText("Send");
-
         }
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

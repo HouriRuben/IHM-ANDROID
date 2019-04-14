@@ -18,6 +18,10 @@
     <string name="firebase_user_management">Firebase User Management</string>
     <string name="google_status_fmt">Utilisateur Google : %s</string>
     <string name="google_title_text">Autentification Google</string>
+    <string name="cr_er_un_menu">Créer un Menu</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Accueil</string>
 
 
 </resources>

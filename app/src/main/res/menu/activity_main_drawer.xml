@@ -9,9 +9,9 @@
             android:icon="@drawable/ic_menu_home"
             android:title="Accueil" />
         <item
-            android:id="@+id/nav_gallery"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="Gallery" />
+            android:id="@+id/nav_menus"
+            android:icon="@drawable/ic_menu_menus"
+            android:title="Menus" />
         <item
             android:id="@+id/nav_slideshow"
             android:icon="@drawable/ic_menu_slideshow"
@@ -19,7 +19,7 @@
         <item
             android:id="@+id/nav_connection"
             android:icon="@drawable/ic_menu_connection"
-            android:title="Connection" />
+            android:title="Connexion" />
     </group>
 
     <item android:title="Communication">
