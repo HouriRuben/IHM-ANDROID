@@ -8,7 +8,6 @@
         android:id="@+id/action_logo"
         android:enabled="true"
         android:title="@string/bottom_navigation_menu_profile"
-        android:icon="@drawable/ic_menu_send"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_landscape"

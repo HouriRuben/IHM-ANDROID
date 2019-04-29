@@ -99,12 +99,10 @@ public class MainActivity extends AppCompatActivity
             startActivity(intent);
 
         } else if (id == R.id.nav_share) {
-
-
-        } else if (id == R.id.nav_send) {
-
+            fragment = new FragmentShare();
 
         }
+
         if (fragment != null) {
             FragmentManager fm = getSupportFragmentManager();
             fm.beginTransaction().replace(R.id.fragment_container,fragment).commit();
