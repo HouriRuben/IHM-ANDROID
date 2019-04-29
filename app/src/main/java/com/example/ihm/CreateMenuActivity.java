@@ -7,6 +7,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 public class CreateMenuActivity extends AppCompatActivity {
 
     Button Valider;
@@ -31,9 +34,10 @@ public class CreateMenuActivity extends AppCompatActivity {
                         || Prix.getText().toString().isEmpty()|| Calories.getText().toString().isEmpty()) {
                     Toast.makeText(getApplicationContext(), "Enter the Data", Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(getApplicationContext(), "Titre -  " + Titre.getText().toString() + " \n" + "Entrée -  " + Entrée.getText().toString()
-                            + " \n" + "Plat -  " + Plat.getText().toString() + " \n" + "Dessert -  " + Dessert.getText().toString()
-                            + " \n" + "Prix -  " + Prix.getText().toString() + " \n" + "Calories -  " + Calories.getText().toString(), Toast.LENGTH_SHORT).show();
+                    Menu menu = new Menu(Titre.getText().toString(),Entrée.getText().toString(),Plat.getText().toString(),Dessert.getText().toString(),Double.parseDouble(Calories.getText().toString()),Integer.parseInt(Prix.getText().toString()));
+                    final Gson gson = new GsonBuilder().serializeNulls().create();
+                    String result = gson.toJson(menu);
+                    Toast.makeText(getApplicationContext(), "Json : " + result, Toast.LENGTH_SHORT).show();
                 }
             }
         });
