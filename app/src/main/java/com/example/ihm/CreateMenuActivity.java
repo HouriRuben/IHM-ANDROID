@@ -54,25 +54,27 @@ public class CreateMenuActivity extends AppCompatActivity {
         Prix = (EditText) findViewById(R.id.editTextPrix);
         Calories = (EditText) findViewById(R.id.editTextCalories);
         Valider = (Button) findViewById(R.id.button);
+        if (user != null) {
 
-        database.child(user.getUid()).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+            database.child(user.getUid()).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
 
-                String json = dataSnapshot.getValue(String.class);
-                if (json != null) {
-                    list = gson.fromJson(json,listType);
+                    String json = dataSnapshot.getValue(String.class);
+                    if (json != null) {
+                        list = gson.fromJson(json, listType);
+                    }
+
+
                 }
 
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError error) {
-                // Failed to read value
-                Log.w("Firebase read ", "Failed to read value.", error.toException());
-            }
-        });
+                @Override
+                public void onCancelled(DatabaseError error) {
+                    // Failed to read value
+                    Log.w("Firebase read ", "Failed to read value.", error.toException());
+                }
+            });
+        }
 
 
         Valider.setOnClickListener(new View.OnClickListener() {

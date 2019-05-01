@@ -45,25 +45,26 @@ public class FragmentMenus extends Fragment implements OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         View view = inflater.inflate(R.layout.fragment_menus, container, false);
         Button createmenubutton = (Button) view.findViewById(R.id.createmenubutton);
+        if (user != null ) {
+            database.child(user.getUid()).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
 
-        database.child(user.getUid()).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+                    String json = dataSnapshot.getValue(String.class);
+                    if (json != null) {
+                        list = gson.fromJson(json, listType);
+                    }
 
-                String json = dataSnapshot.getValue(String.class);
-                if (json != null) {
-                    list = gson.fromJson(json,listType);
+
                 }
 
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError error) {
-                // Failed to read value
-                Log.w("Firebase read ", "Failed to read value.", error.toException());
-            }
-        });
+                @Override
+                public void onCancelled(DatabaseError error) {
+                    // Failed to read value
+                    Log.w("Firebase read ", "Failed to read value.", error.toException());
+                }
+            });
+        }
         Menu menu = new Menu("Test","test","test","test",11,11);
         list.add(menu);
 
