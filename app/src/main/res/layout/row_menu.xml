@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent" android:layout_height="match_parent" android:padding="10dp" >
+
+    <TextView android:id="@+id/textmenu" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textColor="@android:color/black" android:layout_marginLeft="10dp" android:textStyle="bold" tools:text="Pseudo" />
+
+    <TextView
+        android:id="@+id/textentree"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textmenu"
+        android:layout_alignLeft="@+id/textmenu"
+        android:layout_marginLeft="10dp"
+        android:textColor="@android:color/black"
+        tools:text="Entrée" />
+
+    <TextView
+        android:id="@+id/textplat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textmenu"
+        android:layout_alignLeft="@+id/textmenu"
+        android:layout_marginLeft="10dp"
+        android:textColor="@android:color/black"
+        tools:text="Plat" />
+
+    <TextView
+        android:id="@+id/textdessert"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textmenu"
+        android:layout_alignLeft="@+id/textmenu"
+        android:layout_marginLeft="10dp"
+        android:textColor="@android:color/black"
+        tools:text="Dessert" />
+
+
+</LinearLayout>

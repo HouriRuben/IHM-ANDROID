@@ -17,4 +17,28 @@ public class Menu {
         this.calories = calories;
 
     }
+
+    public String getNomMenu() {
+        return nomMenu;
+    }
+
+    public String getEntree() {
+        return entree;
+    }
+
+    public String getPlat() {
+        return plat;
+    }
+
+    public String getDessert() {
+        return dessert;
+    }
+
+    public Double getPrix() {
+        return prix;
+    }
+
+    public Integer getCalories() {
+        return calories;
+    }
 }
