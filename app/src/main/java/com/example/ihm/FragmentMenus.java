@@ -1,6 +1,7 @@
 package com.example.ihm;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -23,6 +24,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Array;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 
@@ -43,19 +45,38 @@ public class FragmentMenus extends Fragment implements OnClickListener {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
-        View view = inflater.inflate(R.layout.fragment_menus, container, false);
+        final View view = inflater.inflate(R.layout.fragment_menus, container, false);
         Button createmenubutton = (Button) view.findViewById(R.id.createmenubutton);
         if (user != null ) {
             database.child(user.getUid()).addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-
-                    String json = dataSnapshot.getValue(String.class);
+                    final String json = dataSnapshot.getValue(String.class);
                     if (json != null) {
-                        list = gson.fromJson(json, listType);
+                        new AsyncTask<Void, Void, ArrayList<Menu>>() {
+                            @Override
+                            protected ArrayList<Menu> doInBackground(Void... params) {
+                                return gson.fromJson(json, listType);
+                            }
+
+                            @Override
+                            protected void onPostExecute(ArrayList<Menu> result) {
+                                list = result;
+                                mListView = (ListView) view.findViewById(R.id.listmenus);
+                                MenuAdapter menuAdapter = new MenuAdapter(getActivity(), list);
+                                mListView.setAdapter(menuAdapter);
+                                System.out.println("CA MARCHE : " + list);
+                            }
+
+                            @Override
+                            protected void onPreExecute() {
+                            }
+
+                            @Override
+                            protected void onProgressUpdate(Void... values) {
+                            }
+                        }.execute();
                     }
-
-
                 }
 
                 @Override
@@ -65,12 +86,6 @@ public class FragmentMenus extends Fragment implements OnClickListener {
                 }
             });
         }
-        Menu menu = new Menu("Test","test","test","test",11,11);
-        list.add(menu);
-
-        mListView = (ListView) view.findViewById(R.id.listmenus);
-        MenuAdapter menuAdapter = new MenuAdapter(getActivity(),list);
-        mListView.setAdapter(menuAdapter);
         createmenubutton.setOnClickListener(this);
         return view;
 
