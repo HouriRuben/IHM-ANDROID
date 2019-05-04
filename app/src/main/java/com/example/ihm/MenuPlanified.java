@@ -1,33 +1,67 @@
 package com.example.ihm;
 
-import android.os.Build;
-import android.support.annotation.RequiresApi;
+public class MenuPlanified {
+    private String nomMenu;
+    private String entree;
+    private String plat;
+    private String dessert;
+    private Double prix;
+    private Integer calories;
+    private Integer year;
+    private Integer month;
+    private Integer day;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.Locale;
+    public MenuPlanified(String nomMenu, String entree, String plat, String dessert, double prix, int calories,int year,int month,int day) {
+        this.nomMenu = nomMenu;
+        this.entree = entree;
+        this.plat = plat;
+        this.dessert = dessert;
+        this.prix = prix;
+        this.calories = calories;
+        this.year = year;
+        this.month = month;
+        this.day = day;
 
-public class MenuPlanified extends Menu {
-    private Menu menu;
-    private LocalDate date;
-
-    public MenuPlanified(Menu menu , LocalDate date) {
-        super(menu);
-        this.date = date;
 
     }
 
-    public Menu getMenu() {
-        return menu;
+    public String getNomMenu() {
+        return nomMenu;
     }
 
-    public LocalDate getDate() {
-        return date;
+    public String getEntree() {
+        return entree;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
+    public String getPlat() {
+        return plat;
+    }
+
+    public String getDessert() {
+        return dessert;
+    }
+
+    public Double getPrix() {
+        return prix;
+    }
+
+    public Integer getCalories() {
+        return calories;
+    }
+
+    public Integer getYear() {
+        return year;
+    }
+
+    public Integer getMonth() {
+        return month;
+    }
+
+    public Integer getDay() {
+        return day;
+    }
+
     public String dateToString(){
-        LocalDate localDate = LocalDate.of(this.date.getYear(), this.date.getMonth().getValue(), this.date.getDayOfMonth());
-        return localDate.format(DateTimeFormatter.ofPattern("EEEE, dd MMMM, yyyy", Locale.FRENCH));
+        return Integer.toString(day)+"/"+Integer.toString(month)+"/"+Integer.toString(year);
     }
 }

@@ -41,10 +41,10 @@ public class MenuPlanifiedAdapter extends ArrayAdapter<MenuPlanified> {
         MenuPlanified menu = getItem(position);
 
         //il ne reste plus qu'à remplir notre vue
-        viewHolder.menu.setText(menu.getMenu().getNomMenu());
-        viewHolder.entree.setText(menu.getMenu().getEntree());
-        viewHolder.plat.setText(menu.getMenu().getPlat());
-        viewHolder.dessert.setText(menu.getMenu().getDessert());
+        viewHolder.menu.setText(menu.getNomMenu());
+        viewHolder.entree.setText(menu.getEntree());
+        viewHolder.plat.setText(menu.getPlat());
+        viewHolder.dessert.setText(menu.getDessert());
         viewHolder.date.setText(menu.dateToString());
 
 

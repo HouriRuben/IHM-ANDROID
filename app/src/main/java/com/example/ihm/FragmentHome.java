@@ -49,7 +49,7 @@ public class FragmentHome extends Fragment implements OnClickListener {
 
     // Firebase
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-    DatabaseReference database = FirebaseDatabase.getInstance().getReference("menus_planified");
+    DatabaseReference database = FirebaseDatabase.getInstance().getReference("repas");
 
     //Json
     final Type listType = new TypeToken<ArrayList<MenuPlanified>>(){}.getType();

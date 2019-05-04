@@ -1,6 +1,5 @@
 package com.example.ihm;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -13,7 +12,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CalendarView;
-import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -35,13 +33,15 @@ import java.util.ArrayList;
 import java.util.Locale;
 
 public class CreateRepasActivity extends AppCompatActivity implements View.OnClickListener {
-    ListView mListView;
     ArrayList<Menu> list = new ArrayList<>();
+    ArrayList<MenuPlanified> repaslist = new ArrayList<>();
     // Firebase
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     DatabaseReference database = FirebaseDatabase.getInstance().getReference("menus");
+    DatabaseReference databaserepas = FirebaseDatabase.getInstance().getReference("repas");
     //Json
     final Type listType = new TypeToken<ArrayList<Menu>>(){}.getType();
+    final Type repasListType = new TypeToken<ArrayList<MenuPlanified>>(){}.getType();
     final Gson gson = new GsonBuilder()
             .serializeNulls()
             .disableHtmlEscaping()
@@ -76,12 +76,15 @@ public class CreateRepasActivity extends AppCompatActivity implements View.OnCli
 
         // FireBase
         if (user != null ) {
+
+            // Récuperer les Menu
             database.child(user.getUid()).addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     final String json = dataSnapshot.getValue(String.class);
 
                     if (json != null) {
+
                         new AsyncTask<Void, Void, ArrayList<Menu>>() {
                             @Override
                             protected ArrayList<Menu> doInBackground(Void... params) {
@@ -128,20 +131,60 @@ public class CreateRepasActivity extends AppCompatActivity implements View.OnCli
                     Log.w("Firebase read ", "Failed to read value.", error.toException());
                 }
             });
+
+            // Récuperer les menus planifier ( repas )
+            databaserepas.child(user.getUid()).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+
+                    String jsonrepas = dataSnapshot.getValue(String.class);
+                    if (jsonrepas != null) {
+                        repaslist = gson.fromJson(jsonrepas, repasListType);
+                    }
+
+
+                }
+
+                @Override
+                public void onCancelled(DatabaseError error) {
+                    // Failed to read value
+                    Log.w("Firebase read ", "Failed to read value.", error.toException());
+                }
+            });
         }
         // fin du if ( user != null )
 
 
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
 
             case R.id.validerbutton:
-                MenuPlanified menuPlanified = new MenuPlanified(clickedItem,date);
-                String string = gson.toJson(menuPlanified);
-                Toast.makeText(context,string, Toast.LENGTH_SHORT).show();
+                if (clickedItem == null) {
+                    Toast.makeText(getApplicationContext(), "Choisisez le Menu ", Toast.LENGTH_SHORT).show();
+                } else {
+                    MenuPlanified menuPlanified = new MenuPlanified(clickedItem.getNomMenu(),
+                            clickedItem.getEntree(),
+                            clickedItem.getPlat(),
+                            clickedItem.getDessert(),
+                            clickedItem.getPrix(),
+                            clickedItem.getCalories(),
+                            date.getYear(),
+                            date.getMonthValue(),
+                            date.getDayOfMonth());
+                    repaslist.add(menuPlanified);
+                    String jsonResult = gson.toJson(repaslist,repasListType);
+                    if (user != null ) {
+                        databaserepas.child(user.getUid()).setValue(jsonResult);
+
+                    }
+
+                    Toast.makeText(getApplicationContext(), "Json : " + jsonResult, Toast.LENGTH_SHORT).show();
+                    finish();
+                }
                 break;
 
             case R.id.nouveaumenubutton:
