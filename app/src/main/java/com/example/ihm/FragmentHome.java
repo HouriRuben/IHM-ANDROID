@@ -41,6 +41,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Collections;
 
 
 public class FragmentHome extends Fragment implements OnClickListener {
@@ -78,6 +79,7 @@ public class FragmentHome extends Fragment implements OnClickListener {
                             @Override
                             protected void onPostExecute(ArrayList<MenuPlanified> result) {
                                 list = result;
+                                Collections.sort(list, new dateComparator());
                                 mListView = (ListView) view.findViewById(R.id.listrepas);
                                 MenuPlanifiedAdapter repasAdapter = new MenuPlanifiedAdapter(getActivity(), list);
                                 mListView.setAdapter(repasAdapter);

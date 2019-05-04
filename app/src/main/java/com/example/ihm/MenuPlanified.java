@@ -64,4 +64,8 @@ public class MenuPlanified {
     public String dateToString(){
         return Integer.toString(day)+"/"+Integer.toString(month)+"/"+Integer.toString(year);
     }
+
+    public int dateCompare() {
+        return year+month+day;
+    }
 }
