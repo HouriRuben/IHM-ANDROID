@@ -1,37 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent" android:layout_height="match_parent" android:padding="10dp" >
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="10dp"
+    android:layout_marginLeft="6dp"
+    android:layout_marginRight="6dp"
+    android:layout_marginTop="4dp"
+    android:layout_marginBottom="4dp"
+    android:background="@drawable/card_background">
 
-    <TextView android:id="@+id/textmenu" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textColor="@android:color/black" android:layout_marginLeft="10dp" android:textStyle="bold" tools:text="Pseudo" />
+    <TextView
+        android:id="@+id/textmenu"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:textColor="@android:color/black"
+        android:textStyle="bold"
+        tools:text="Pseudo" />
 
     <TextView
         android:id="@+id/textentree"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/textmenu"
-        android:layout_alignLeft="@+id/textmenu"
-        android:layout_marginLeft="10dp"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:layout_alignTop="@+id/textmenu"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="0dp"
+        android:layout_toEndOf="@+id/textmenu"
         android:textColor="@android:color/black"
         tools:text="Entrée" />
 
     <TextView
         android:id="@+id/textplat"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/textmenu"
-        android:layout_alignLeft="@+id/textmenu"
-        android:layout_marginLeft="10dp"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:layout_alignTop="@+id/textmenu"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="0dp"
+        android:layout_toEndOf="@+id/textentree"
         android:textColor="@android:color/black"
         tools:text="Plat" />
 
     <TextView
         android:id="@+id/textdessert"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/textmenu"
-        android:layout_alignLeft="@+id/textmenu"
-        android:layout_marginLeft="10dp"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:layout_marginStart="14dp"
+        android:layout_toEndOf="@+id/textplat"
         android:textColor="@android:color/black"
         tools:text="Dessert" />
 
 
-</LinearLayout>
+</RelativeLayout>

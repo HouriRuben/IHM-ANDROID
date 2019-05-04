@@ -18,6 +18,15 @@ public class Menu {
 
     }
 
+    public Menu(Menu menu) {
+        this.nomMenu = menu.getNomMenu();
+        this.entree = menu.getEntree();
+        this.plat = menu.getPlat();
+        this.dessert = menu.getDessert();
+        this.prix = menu.getPrix();
+        this.calories = menu.calories;
+    }
+
     public String getNomMenu() {
         return nomMenu;
     }

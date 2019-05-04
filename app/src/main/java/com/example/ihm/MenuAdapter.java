@@ -33,7 +33,6 @@ public class MenuAdapter extends ArrayAdapter<Menu> {
             convertView.setTag(viewHolder);
         }
 
-        //getItem(position) va récupérer l'item [position] de la List<Tweet> tweets
         Menu menu = getItem(position);
 
         //il ne reste plus qu'à remplir notre vue
@@ -41,7 +40,6 @@ public class MenuAdapter extends ArrayAdapter<Menu> {
         viewHolder.entree.setText(menu.getEntree());
         viewHolder.plat.setText(menu.getPlat());
         viewHolder.dessert.setText(menu.getDessert());
-
 
         return convertView;
     }

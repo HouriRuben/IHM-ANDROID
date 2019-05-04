@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="10dp"
+    android:layout_marginLeft="6dp"
+    android:layout_marginRight="6dp"
+    android:layout_marginTop="4dp"
+    android:layout_marginBottom="4dp"
+    android:background="@drawable/card_background">
+
+    <TextView
+        android:id="@+id/repastextmenu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/black"
+        android:layout_marginLeft="10dp"
+        android:textStyle="bold"
+        tools:text="Pseudo" />
+
+    <TextView
+        android:id="@+id/repastextentree"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/repastextmenu"
+        android:layout_alignLeft="@+id/textmenu"
+        android:layout_marginLeft="10dp"
+        android:textColor="@android:color/black"
+        tools:text="Entrée" />
+
+    <TextView
+        android:id="@+id/repastextplat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/repastextmenu"
+        android:layout_alignLeft="@+id/repastextmenu"
+        android:layout_marginLeft="10dp"
+        android:textColor="@android:color/black"
+        tools:text="Plat" />
+
+    <TextView
+        android:id="@+id/repastextdessert"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/repastextmenu"
+        android:layout_alignLeft="@+id/repastextmenu"
+        android:layout_marginLeft="10dp"
+        android:textColor="@android:color/black"
+        tools:text="Dessert" />
+
+    <TextView
+        android:id="@+id/repastextdate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/repastextmenu"
+        android:layout_alignLeft="@+id/repastextmenu"
+        android:layout_marginLeft="10dp"
+        android:textColor="@android:color/black"
+        tools:text="Date" />
+
+
+</LinearLayout>

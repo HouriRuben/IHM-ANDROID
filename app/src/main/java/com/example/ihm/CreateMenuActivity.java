@@ -54,6 +54,7 @@ public class CreateMenuActivity extends AppCompatActivity {
         Prix = (EditText) findViewById(R.id.editTextPrix);
         Calories = (EditText) findViewById(R.id.editTextCalories);
         Valider = (Button) findViewById(R.id.button);
+
         if (user != null) {
 
             database.child(user.getUid()).addValueEventListener(new ValueEventListener() {
