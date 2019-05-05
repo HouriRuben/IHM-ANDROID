@@ -5,9 +5,13 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.view.View.OnClickListener;
 import android.widget.ListView;
@@ -66,6 +70,29 @@ public class FragmentMenus extends Fragment implements OnClickListener {
         createmenubutton.setOnClickListener(this);
         return fragmentView;
 
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        MenuInflater inflater = getActivity().getMenuInflater();
+        inflater.inflate(R.menu.context_menu_menus, menu);
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        int selectedItemId = (int) info.id;
+        switch (item.getItemId()) {
+            case R.id.cancel:
+                return false;
+            case R.id.delete:
+                list.remove(selectedItemId);
+                mListView.invalidateViews();
+                return true;
+            default:
+                return super.onContextItemSelected(item);
+        }
     }
 
     @Override
