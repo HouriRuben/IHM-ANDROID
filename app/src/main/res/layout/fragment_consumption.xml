@@ -15,6 +15,20 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
+            <TextView
+                android:id="@+id/textViewCE"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="80dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="0dp"
+                android:fontFamily="@font/advent_pro_bold"
+                android:text="Consommation des Entrées :"
+                android:gravity="center_horizontal"
+                android:textColor="@color/design_default_color_primary_dark"
+                android:textSize="30sp" />
+
             <com.github.mikephil.charting.charts.PieChart
                 android:id="@+id/chart"
                 android:layout_width="match_parent"
@@ -32,6 +46,20 @@
 
             </com.github.mikephil.charting.charts.PieChart>
 
+            <TextView
+                android:id="@+id/textViewCP"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="80dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="0dp"
+                android:fontFamily="@font/advent_pro_bold"
+                android:text="Consommation des Plats :"
+                android:gravity="center_horizontal"
+                android:textColor="@color/design_default_color_primary_dark"
+                android:textSize="30sp" />
+
             <com.github.mikephil.charting.charts.PieChart
                 android:id="@+id/chart2"
                 android:layout_width="match_parent"
@@ -48,6 +76,20 @@
                 app:layout_constraintVertical_bias="0.0">
 
             </com.github.mikephil.charting.charts.PieChart>
+
+            <TextView
+                android:id="@+id/textViewCD"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="80dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="0dp"
+                android:fontFamily="@font/advent_pro_bold"
+                android:text="Consommation des Desserts :"
+                android:gravity="center_horizontal"
+                android:textColor="@color/design_default_color_primary_dark"
+                android:textSize="30sp" />
 
             <com.github.mikephil.charting.charts.PieChart
                 android:id="@+id/chart3"
