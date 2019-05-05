@@ -21,11 +21,14 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+
+import java.lang.ref.WeakReference;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 
 public class FragmentMenus extends Fragment implements OnClickListener {
+    View fragmentView;
     ListView mListView;
     ArrayList<Menu> list = new ArrayList<>();
     // Firebase
@@ -41,37 +44,15 @@ public class FragmentMenus extends Fragment implements OnClickListener {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
-        final View view = inflater.inflate(R.layout.fragment_menus, container, false);
-        Button createmenubutton = (Button) view.findViewById(R.id.createmenubutton);
+        this.fragmentView = inflater.inflate(R.layout.fragment_menus, container, false);
+        Button createmenubutton = (Button) fragmentView.findViewById(R.id.createmenubutton);
         if (user != null ) {
             database.child(user.getUid()).addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     final String json = dataSnapshot.getValue(String.class);
                     if (json != null) {
-                        new AsyncTask<Void, Void, ArrayList<Menu>>() {
-                            @Override
-                            protected ArrayList<Menu> doInBackground(Void... params) {
-                                return gson.fromJson(json, listType);
-                            }
-
-                            @Override
-                            protected void onPostExecute(ArrayList<Menu> result) {
-                                list = result;
-                                mListView = (ListView) view.findViewById(R.id.listmenus);
-                                MenuAdapter menuAdapter = new MenuAdapter(getActivity(), list);
-                                mListView.setAdapter(menuAdapter);
-                                System.out.println("CA MARCHE : " + list);
-                            }
-
-                            @Override
-                            protected void onPreExecute() {
-                            }
-
-                            @Override
-                            protected void onProgressUpdate(Void... values) {
-                            }
-                        }.execute();
+                        new DownloadMenusTask(FragmentMenus.this).execute(json);
                     }
                 }
 
@@ -83,7 +64,7 @@ public class FragmentMenus extends Fragment implements OnClickListener {
             });
         }
         createmenubutton.setOnClickListener(this);
-        return view;
+        return fragmentView;
 
     }
 
