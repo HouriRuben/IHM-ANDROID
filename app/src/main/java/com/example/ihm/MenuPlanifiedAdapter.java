@@ -1,8 +1,6 @@
 package com.example.ihm;
 
 import android.content.Context;
-import android.os.Build;
-import android.support.annotation.RequiresApi;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +16,6 @@ public class MenuPlanifiedAdapter extends ArrayAdapter<MenuPlanified> {
         super(context, 0, menus);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 

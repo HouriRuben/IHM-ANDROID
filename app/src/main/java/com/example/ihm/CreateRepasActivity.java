@@ -27,10 +27,9 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Locale;
+import java.util.Date;
+
 
 public class CreateRepasActivity extends AppCompatActivity implements View.OnClickListener {
     ArrayList<Menu> list = new ArrayList<>();
@@ -47,11 +46,10 @@ public class CreateRepasActivity extends AppCompatActivity implements View.OnCli
             .disableHtmlEscaping()
             .setPrettyPrinting()
             .create();
-    LocalDate date;
+    EasyDate date;
     Menu clickedItem;
     Context context;
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,14 +61,14 @@ public class CreateRepasActivity extends AppCompatActivity implements View.OnCli
         validerbutton.setOnClickListener(this);
 
         // Calendar
-        date = LocalDate.now();
+        Date tamp = new Date();
+        date = new EasyDate(tamp.getDay(),tamp.getMonth(),tamp.getYear());
         CalendarView calendar = (CalendarView) findViewById(R.id.simpleCalendarView);
         calendar.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(CalendarView view, int year, int month, int dayOfMonth) {
-                date = LocalDate.of(year,month+1, dayOfMonth);
-                String datestr = date.format(DateTimeFormatter.ofPattern("EEEE, dd MMMM, yyyy", Locale.FRENCH));
-                Toast.makeText(context, datestr, Toast.LENGTH_SHORT).show();
+                date = new EasyDate(dayOfMonth,month+1, year);
+
             }
         });
 
@@ -173,8 +171,8 @@ public class CreateRepasActivity extends AppCompatActivity implements View.OnCli
                             clickedItem.getPrix(),
                             clickedItem.getCalories(),
                             date.getYear(),
-                            date.getMonthValue(),
-                            date.getDayOfMonth());
+                            date.getMonth(),
+                            date.getDay());
                     repaslist.add(menuPlanified);
                     String jsonResult = gson.toJson(repaslist,repasListType);
                     if (user != null ) {
