@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="50dp"
     android:padding="10dp"
-    android:layout_marginLeft="6dp"
-    android:layout_marginRight="6dp"
+    android:layout_gravity="center"
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp"
     android:layout_marginTop="4dp"
     android:layout_marginBottom="4dp"
     android:background="@drawable/card_background_repas">
@@ -24,11 +24,11 @@
         android:id="@+id/repastextentree"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:gravity="center"
         android:layout_alignTop="@+id/repastextmenu"
         android:layout_marginStart="15dp"
         android:layout_marginTop="0dp"
         android:layout_toEndOf="@+id/repastextmenu"
+        android:gravity="center"
         android:textColor="@android:color/white"
         tools:text="Entrée" />
 
@@ -36,10 +36,10 @@
         android:id="@+id/repastextplat"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:gravity="center"
         android:layout_centerVertical="true"
         android:layout_marginStart="15dp"
         android:layout_toEndOf="@+id/repastextentree"
+        android:gravity="center"
         android:textColor="@android:color/white"
         tools:text="Plat" />
 
@@ -47,10 +47,10 @@
         android:id="@+id/repastextdessert"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:gravity="center"
         android:layout_centerVertical="true"
         android:layout_marginStart="15dp"
         android:layout_toEndOf="@+id/repastextplat"
+        android:gravity="center"
         android:textColor="@android:color/white"
         tools:text="Dessert" />
 
@@ -58,10 +58,10 @@
         android:id="@+id/repastextdate"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:gravity="center"
         android:layout_centerVertical="true"
         android:layout_marginStart="16dp"
         android:layout_toEndOf="@+id/repastextdessert"
+        android:gravity="center"
         android:textColor="@android:color/white"
         tools:text="Date" />
 

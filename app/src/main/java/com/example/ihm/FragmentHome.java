@@ -44,18 +44,22 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.List;
 
 
 public class FragmentHome extends Fragment implements OnClickListener {
     ListView mListView;
     ArrayList<MenuPlanified> list = new ArrayList<>();
+    ArrayList<String> listshare = new ArrayList<>();
 
     // Firebase
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     DatabaseReference database = FirebaseDatabase.getInstance().getReference("repas");
+    DatabaseReference databaseshare = FirebaseDatabase.getInstance().getReference("partage");
 
     //Json
     final Type listType = new TypeToken<ArrayList<MenuPlanified>>(){}.getType();
+    final Type listTypeShare = new TypeToken<ArrayList<String>>(){}.getType();
     final Gson gson = new GsonBuilder()
             .serializeNulls()
             .disableHtmlEscaping()
@@ -68,24 +72,47 @@ public class FragmentHome extends Fragment implements OnClickListener {
         final View view = inflater.inflate(R.layout.fragment_home, container, false);
         Button createrepasbutton = (Button) view.findViewById(R.id.createrepasbutton);
         if (user != null ) {
-            database.child(user.getUid()).addValueEventListener(new ValueEventListener() {
+            databaseshare.child(user.getUid()).addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     final String json = dataSnapshot.getValue(String.class);
                     if (json != null) {
                         // Make the great list
-                        list = gson.fromJson(json, listType);
+                        listshare = gson.fromJson(json, listTypeShare);
+                    } else {
+                        listshare = new ArrayList<>();
+                    }
+                    listshare.add(user.getUid());
 
-                        Collections.sort(list, new dateComparator());
-                        list = startListToday(list);
+                    list = new ArrayList<>();
+                    for (int i = 0 ;i< listshare.size();i++) {
+                        database.child(listshare.get(i)).addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                final String json = dataSnapshot.getValue(String.class);
+                                if (json != null) {
+                                    // Make the great list
+                                    List<MenuPlanified> listtamp = gson.fromJson(json, listType);
+                                    list.addAll(listtamp);
+                                    Collections.sort(list, new dateComparator());
+                                    list = startListToday(list);
 
-                        // Prompt the great list
-                        if (getActivity() != null) {
-                            mListView = (ListView) view.findViewById(R.id.listrepas);
-                            MenuPlanifiedAdapter repasAdapter = new MenuPlanifiedAdapter(getActivity(), list);
-                            mListView.setAdapter(repasAdapter);
-                        }
-                        registerForContextMenu(mListView);
+                                    // Prompt the great list
+                                    if (getActivity() != null) {
+                                        mListView = (ListView) view.findViewById(R.id.listrepas);
+                                        MenuPlanifiedAdapter repasAdapter = new MenuPlanifiedAdapter(getActivity(), list);
+                                        mListView.setAdapter(repasAdapter);
+                                    }
+                                    registerForContextMenu(mListView);
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError error) {
+                                // Failed to read value
+                                Log.w("Firebase read ", "Failed to read value.", error.toException());
+                            }
+                        });
                     }
                 }
 
@@ -95,6 +122,11 @@ public class FragmentHome extends Fragment implements OnClickListener {
                     Log.w("Firebase read ", "Failed to read value.", error.toException());
                 }
             });
+
+
+
+
+
         }
         createrepasbutton.setOnClickListener(this);
         return view;
