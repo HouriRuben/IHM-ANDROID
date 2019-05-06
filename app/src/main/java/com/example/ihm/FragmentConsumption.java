@@ -56,30 +56,11 @@ public class FragmentConsumption extends Fragment {
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     final String json = dataSnapshot.getValue(String.class);
                     if (json != null) {
-                        new AsyncTask<Void, Void, ArrayList<MenuPlanified>>() {
-                            @Override
-                            protected ArrayList<MenuPlanified> doInBackground(Void... params) {
-                                return gson.fromJson(json, listType);
-                            }
-
-                            @Override
-                            protected void onPostExecute(ArrayList<MenuPlanified> result) {
-                                list = result;
-                                Collections.sort(list, new dateComparator());
-                                CreateChartEntree(view);
-                                CreateChartPlat(view);
-                                CreateChartDesert(view);
-
-                            }
-
-                            @Override
-                            protected void onPreExecute() {
-                            }
-
-                            @Override
-                            protected void onProgressUpdate(Void... values) {
-                            }
-                        }.execute();
+                        list = gson.fromJson(json, listType);
+                        Collections.sort(list, new dateComparator());
+                        CreateChartEntree(view);
+                        CreateChartPlat(view);
+                        CreateChartDesert(view);
                     }
                 }
 

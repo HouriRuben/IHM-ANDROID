@@ -2,7 +2,10 @@ package com.example.ihm;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -20,6 +23,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 
 import android.util.Log;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.view.View.OnClickListener;
@@ -69,40 +73,19 @@ public class FragmentHome extends Fragment implements OnClickListener {
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     final String json = dataSnapshot.getValue(String.class);
                     if (json != null) {
-                        new AsyncTask<Void, Void, ArrayList<MenuPlanified>>() {
-                            @Override
-                            protected ArrayList<MenuPlanified> doInBackground(Void... params) {
-                                return gson.fromJson(json, listType);
-                            }
+                        // Make the great list
+                        list = gson.fromJson(json, listType);
 
-                            @Override
-                            protected void onPostExecute(ArrayList<MenuPlanified> result) {
-                                // Make the great list
-                                list = result;
-                                Collections.sort(list, new dateComparator());
-                                list = startListToday(list);
+                        Collections.sort(list, new dateComparator());
+                        list = startListToday(list);
 
-
-                                // Prompt the great list
-
-                                if (getActivity() != null) {
-                                    mListView = (ListView) view.findViewById(R.id.listrepas);
-                                    MenuPlanifiedAdapter repasAdapter = new MenuPlanifiedAdapter(getActivity(), list);
-                                    mListView.setAdapter(repasAdapter);
-                                }
-
-                                System.out.println("CA MARCHE : " + list);
-
-                            }
-
-                            @Override
-                            protected void onPreExecute() {
-                            }
-
-                            @Override
-                            protected void onProgressUpdate(Void... values) {
-                            }
-                        }.execute();
+                        // Prompt the great list
+                        if (getActivity() != null) {
+                            mListView = (ListView) view.findViewById(R.id.listrepas);
+                            MenuPlanifiedAdapter repasAdapter = new MenuPlanifiedAdapter(getActivity(), list);
+                            mListView.setAdapter(repasAdapter);
+                        }
+                        registerForContextMenu(mListView);
                     }
                 }
 
@@ -141,5 +124,33 @@ public class FragmentHome extends Fragment implements OnClickListener {
     public void onClick(View v) {
         Intent intent = new Intent(getContext(), CreateRepasActivity.class);
         startActivity(intent);
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        MenuInflater inflater = getActivity().getMenuInflater();
+        inflater.inflate(R.menu.context_menu_menus, menu);
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        int selectedItemId = (int) info.id;
+        switch (item.getItemId()) {
+            case R.id.cancel:
+                return false;
+            case R.id.delete:
+                MenuPlanified suppressingMenu = list.get(selectedItemId);
+                list.remove(suppressingMenu);
+                String jsonResult = gson.toJson(list, listType);
+                if (user != null) {
+                    database.child(user.getUid()).setValue(jsonResult);
+                }
+                mListView.invalidateViews();
+                return true;
+            default:
+                return super.onContextItemSelected(item);
+        }
     }
 }

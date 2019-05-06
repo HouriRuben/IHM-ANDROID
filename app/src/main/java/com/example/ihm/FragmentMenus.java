@@ -3,6 +3,8 @@ package com.example.ihm;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.ContextMenu;
@@ -29,6 +31,10 @@ import com.google.gson.reflect.TypeToken;
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+
+import javax.xml.transform.Result;
 
 
 public class FragmentMenus extends Fragment implements OnClickListener {
@@ -56,7 +62,11 @@ public class FragmentMenus extends Fragment implements OnClickListener {
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     final String json = dataSnapshot.getValue(String.class);
                     if (json != null) {
-                        new DownloadMenusTask(FragmentMenus.this).execute(json);
+                        list = gson.fromJson(json, listType);
+                        mListView = (ListView) fragmentView.findViewById(R.id.listmenus);
+                        MenuAdapter menuAdapter = new MenuAdapter(getActivity(), list);
+                        mListView.setAdapter(menuAdapter);
+                        registerForContextMenu(mListView);
                     }
                 }
 
