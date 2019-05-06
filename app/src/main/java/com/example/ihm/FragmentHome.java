@@ -1,7 +1,5 @@
 package com.example.ihm;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -20,15 +18,14 @@ import android.view.ViewGroup;
 
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.os.Bundle;
-import android.support.v4.app.Fragment;
+
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.view.View.OnClickListener;
 import android.widget.ListView;
+import android.widget.Toast;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -41,6 +38,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 
 
@@ -60,6 +58,7 @@ public class FragmentHome extends Fragment implements OnClickListener {
             .setPrettyPrinting()
             .create();
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         final View view = inflater.inflate(R.layout.fragment_home, container, false);
@@ -78,11 +77,20 @@ public class FragmentHome extends Fragment implements OnClickListener {
 
                             @Override
                             protected void onPostExecute(ArrayList<MenuPlanified> result) {
+                                // Make the great list
                                 list = result;
                                 Collections.sort(list, new dateComparator());
-                                mListView = (ListView) view.findViewById(R.id.listrepas);
-                                MenuPlanifiedAdapter repasAdapter = new MenuPlanifiedAdapter(getActivity(), list);
-                                mListView.setAdapter(repasAdapter);
+                                list = startListToday(list);
+
+
+                                // Prompt the great list
+
+                                if (getActivity() != null) {
+                                    mListView = (ListView) view.findViewById(R.id.listrepas);
+                                    MenuPlanifiedAdapter repasAdapter = new MenuPlanifiedAdapter(getActivity(), list);
+                                    mListView.setAdapter(repasAdapter);
+                                }
+
                                 System.out.println("CA MARCHE : " + list);
 
                             }
@@ -108,6 +116,25 @@ public class FragmentHome extends Fragment implements OnClickListener {
         createrepasbutton.setOnClickListener(this);
         return view;
 
+    }
+
+    private ArrayList<MenuPlanified> startListToday(ArrayList<MenuPlanified> list) {
+        Calendar tamp = Calendar.getInstance();
+        tamp.add(Calendar.MONTH,1);
+        int year = tamp.get(Calendar.YEAR);
+        int month = tamp.get(Calendar.MONTH);
+        int day = tamp.get(Calendar.DAY_OF_MONTH);
+        int Current = (year*2000)+(month*100)+day;
+
+
+        ArrayList<MenuPlanified> newList = new ArrayList<>();
+        for (int i = 0;i<list.size();i++){
+            if (list.get(i).dateCompare()>= Current){
+                newList.add(list.get(i));
+            }
+        }
+
+        return newList;
     }
 
     @Override

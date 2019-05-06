@@ -66,6 +66,6 @@ public class MenuPlanified {
     }
 
     public int dateCompare() {
-        return year+month+day;
+        return (year*2000)+(month*100)+day;
     }
 }

@@ -69,7 +69,6 @@ public class FragmentConsumption extends Fragment {
                                 CreateChartEntree(view);
                                 CreateChartPlat(view);
                                 CreateChartDesert(view);
-                                MenuPlanifiedAdapter repasAdapter = new MenuPlanifiedAdapter(getActivity(), list);
 
                             }
 

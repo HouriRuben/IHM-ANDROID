@@ -16,6 +16,7 @@ public class MenuPlanifiedAdapter extends ArrayAdapter<MenuPlanified> {
         super(context, 0, menus);
     }
 
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
@@ -38,6 +39,7 @@ public class MenuPlanifiedAdapter extends ArrayAdapter<MenuPlanified> {
         MenuPlanified menu = getItem(position);
 
         //il ne reste plus qu'à remplir notre vue
+        assert menu != null;
         viewHolder.menu.setText(menu.getNomMenu());
         viewHolder.entree.setText(menu.getEntree());
         viewHolder.plat.setText(menu.getPlat());
