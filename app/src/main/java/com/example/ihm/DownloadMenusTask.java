@@ -23,8 +23,10 @@ public class DownloadMenusTask extends AsyncTask<String, Void, ArrayList<Menu>> 
     protected void onPostExecute(ArrayList<Menu> result) {
         fragmentReference.list = result;
         fragmentReference.mListView = (ListView) fragmentReference.fragmentView.findViewById(R.id.listmenus);
-        MenuAdapter menuAdapter = new MenuAdapter(fragmentReference.getActivity(), fragmentReference.list);
-        fragmentReference.mListView.setAdapter(menuAdapter);
+        if(fragmentReference.getActivity() != null){
+            MenuAdapter menuAdapter = new MenuAdapter(fragmentReference.getActivity(), fragmentReference.list);
+            fragmentReference.mListView.setAdapter(menuAdapter);
+        }
         fragmentReference.registerForContextMenu(fragmentReference.mListView);
     }
 }

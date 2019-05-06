@@ -179,7 +179,7 @@ public class CreateRepasActivity extends AppCompatActivity implements View.OnCli
                         databaserepas.child(user.getUid()).setValue(jsonResult);
 
                     }
-
+                    System.out.println("REPAS : " + jsonResult);
                     Toast.makeText(getApplicationContext(), "Json : " + jsonResult, Toast.LENGTH_SHORT).show();
                     finish();
                 }

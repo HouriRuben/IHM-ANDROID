@@ -87,7 +87,12 @@ public class FragmentMenus extends Fragment implements OnClickListener {
             case R.id.cancel:
                 return false;
             case R.id.delete:
-                list.remove(selectedItemId);
+                Menu suppressingMenu = list.get(selectedItemId);
+                list.remove(suppressingMenu);
+                String jsonResult = gson.toJson(list, listType);
+                if (user != null ) {
+                    database.child(user.getUid()).setValue(jsonResult);
+                }
                 mListView.invalidateViews();
                 return true;
             default:
