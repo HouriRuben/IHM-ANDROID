@@ -1,5 +1,6 @@
 package com.example.ihm;
 
+import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -31,11 +32,16 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import static android.app.Activity.RESULT_OK;
+
 public class FragmentShare extends Fragment {
     EditText Destinataire;
     EditText ID;
     Button Partager;
     Button Recevoir;
+
+    BluetoothAdapter bluetoothAdapter;
+    int REQUEST_ENABLE_BT = 1;
 
     // Firebase
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -48,8 +54,16 @@ public class FragmentShare extends Fragment {
             .setPrettyPrinting()
             .create();
 
+    public void handleBluetoothActivation(){
+        int REQUEST_ENABLE_BT = 0;
+        Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+        startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
+        this.bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+
        View view = inflater.inflate(R.layout.fragment_share, container, false);
        Destinataire = view.findViewById(R.id.destinataire);
        ID = view.findViewById(R.id.shareid);
@@ -77,26 +91,7 @@ public class FragmentShare extends Fragment {
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     final String json = dataSnapshot.getValue(String.class);
                     if (json != null) {
-                        new AsyncTask<Void, Void, ArrayList<String>>() {
-                            @Override
-                            protected ArrayList<String> doInBackground(Void... params) {
-                                return gson.fromJson(json, listType);
-                            }
-
-                            @Override
-                            protected void onPostExecute(ArrayList<String> result) {
-                                list = result;
-
-                            }
-
-                            @Override
-                            protected void onPreExecute() {
-                            }
-
-                            @Override
-                            protected void onProgressUpdate(Void... values) {
-                            }
-                        }.execute();
+                        list = gson.fromJson(json, listType);
                     }
                 }
 
@@ -110,6 +105,32 @@ public class FragmentShare extends Fragment {
 
 
        return view;
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceBundle){
+        super.onActivityCreated(savedInstanceBundle);
+        Button bluetoothButton = getActivity().findViewById(R.id.buttonBluetoothShare);
+        bluetoothButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!bluetoothAdapter.isEnabled()){
+                    handleBluetoothActivation();
+                }
+            }
+        });
+        if(this.bluetoothAdapter == null){
+            bluetoothButton.setEnabled(false);
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data){
+        if(requestCode == REQUEST_ENABLE_BT){
+            if(resultCode == RESULT_OK){
+                System.out.println("OK");
+            }
+        }
     }
 
     private void addIDToGetList(View v) {
