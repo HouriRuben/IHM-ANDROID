@@ -24,7 +24,7 @@ public class Menu {
         this.plat = menu.getPlat();
         this.dessert = menu.getDessert();
         this.prix = menu.getPrix();
-        this.calories = menu.calories;
+        this.calories = menu.getCalories();
     }
 
     public String getNomMenu() {

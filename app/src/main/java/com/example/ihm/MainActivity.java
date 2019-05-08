@@ -92,7 +92,7 @@ public class MainActivity extends AppCompatActivity
 
 
         } else if (id == R.id.nav_consumption) {
-            fragment = new FragmentConsumption();
+            fragment = new FragmentDateConsumption();
 
         } else if (id == R.id.nav_connection) {
             Intent intent = new Intent(getApplicationContext(),GoogleSignInActivity.class);
@@ -101,6 +101,8 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_share) {
             fragment = new FragmentShare();
 
+        } else if (id == R.id.nav_receve) {
+            fragment = new ReceveFragment();
         }
 
         if (fragment != null) {

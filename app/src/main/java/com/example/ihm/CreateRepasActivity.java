@@ -155,7 +155,6 @@ public class CreateRepasActivity extends AppCompatActivity implements View.OnCli
 
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onClick(View v) {
         switch (v.getId()) {

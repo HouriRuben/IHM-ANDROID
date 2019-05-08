@@ -27,7 +27,11 @@
             <item
                 android:id="@+id/nav_share"
                 android:icon="@drawable/ic_menu_share"
-                android:title="Share" />
+                android:title="Partager (Mail/Bluetooth)" />
+            <item
+                android:id="@+id/nav_receve"
+                android:icon="@drawable/ic_menu_receve"
+                android:title="Recevoir" />
 
         </menu>
     </item>

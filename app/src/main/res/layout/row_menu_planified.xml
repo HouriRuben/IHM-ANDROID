@@ -3,13 +3,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="50dp"
-    android:padding="10dp"
     android:layout_gravity="center"
     android:layout_marginLeft="10dp"
+    android:layout_marginTop="10dp"
     android:layout_marginRight="10dp"
-    android:layout_marginTop="4dp"
-    android:layout_marginBottom="4dp"
-    android:background="@drawable/card_background_repas">
+    android:layout_marginBottom="10dp"
+    android:background="@drawable/card_background_repas"
+    android:padding="10dp">
 
     <TextView
         android:id="@+id/repastextmenu"

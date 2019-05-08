@@ -1,10 +1,10 @@
 package com.example.ihm;
 
+import android.bluetooth.BluetoothAdapter;
+import android.content.Context;
 import android.content.Intent;
-import android.os.AsyncTask;
+import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.ContextMenu;
@@ -14,9 +14,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.view.View.OnClickListener;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -28,34 +31,41 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
-import java.lang.ref.WeakReference;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
+import java.util.List;
 
-import javax.xml.transform.Result;
+import static android.app.Activity.RESULT_OK;
 
 
-public class FragmentMenus extends Fragment implements OnClickListener {
-    View fragmentView;
-    ListView mListView;
-    ArrayList<Menu> list = new ArrayList<>();
+
+public class ReceveFragment extends Fragment {
+    EditText Destinataire;
+    EditText ID;
+    Button Partager;
+    Button Recevoir;
+    List<String> list2 = new ArrayList<>();
+
     // Firebase
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-    DatabaseReference database = FirebaseDatabase.getInstance().getReference("menus");
-    //Json
-    final Type listType = new TypeToken<ArrayList<Menu>>(){}.getType();
+    DatabaseReference database = FirebaseDatabase.getInstance().getReference("partage");
+    ArrayList<String> list;
+    final Type listType = new TypeToken<ArrayList<String>>(){}.getType();
     final Gson gson = new GsonBuilder()
             .serializeNulls()
             .disableHtmlEscaping()
             .setPrettyPrinting()
             .create();
+    private ListView mainListView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
-        this.fragmentView = inflater.inflate(R.layout.fragment_menus, container, false);
-        Button createmenubutton = (Button) fragmentView.findViewById(R.id.createmenubutton);
+
+        final View view = inflater.inflate(R.layout.fragment_receve, container, false);
+        Destinataire = view.findViewById(R.id.destinataire);
+        ID = view.findViewById(R.id.shareid);
+        Partager = view.findViewById(R.id.sharebutton);
+
         if (user != null ) {
             database.child(user.getUid()).addValueEventListener(new ValueEventListener() {
                 @Override
@@ -63,13 +73,15 @@ public class FragmentMenus extends Fragment implements OnClickListener {
                     final String json = dataSnapshot.getValue(String.class);
                     if (json != null) {
                         list = gson.fromJson(json, listType);
-                        mListView = (ListView) fragmentView.findViewById(R.id.listmenus);
-                        if (getActivity() != null){
-                            MenuAdapter menuAdapter = new MenuAdapter(getActivity(), list);
-                            mListView.setAdapter(menuAdapter);
-                        }
 
-                        registerForContextMenu(mListView);
+                        mainListView = (ListView) view.findViewById( R.id.sharelist );
+
+                        if (view.getContext() != null){
+                            ArrayAdapter<String> listAdapter = new ArrayAdapter<String>(view.getContext(), android.R.layout.simple_list_item_1, android.R.id.text1,list);
+                            mainListView.setAdapter( listAdapter );
+                        }
+                        registerForContextMenu(mainListView);
+
                     }
                 }
 
@@ -80,8 +92,49 @@ public class FragmentMenus extends Fragment implements OnClickListener {
                 }
             });
         }
-        createmenubutton.setOnClickListener(this);
-        return fragmentView;
+
+        //Bouton Recevoir
+        Recevoir = view.findViewById(R.id.getidbutton);
+        Recevoir.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public  void  onClick(View v)
+            {
+                addIDToGetList(v);
+            }       });
+
+
+
+
+
+
+        return view;
+    }
+
+    private void addIDToGetList(View v) {
+
+        if ( ID.getText().toString().length() == 28 && ID.getText().toString() != null) {
+            String newId = ID.getText().toString();
+            list2.add(newId);
+
+            if(list != null) {
+                list2.addAll(list);
+            }
+
+        } else {
+            Toast.makeText(getContext()," Format Identifiant non reconnu ",Toast.LENGTH_SHORT).show();
+            ID.getText().clear();
+        }
+
+
+        String jsonResult = gson.toJson(list2,listType);
+
+        if (user != null ) {
+            database.child(user.getUid()).setValue(jsonResult);
+
+        }
+
+        ID.getText().clear();
+
 
     }
 
@@ -100,22 +153,20 @@ public class FragmentMenus extends Fragment implements OnClickListener {
             case R.id.cancel:
                 return false;
             case R.id.delete:
-                Menu suppressingMenu = list.get(selectedItemId);
-                list.remove(suppressingMenu);
-                String jsonResult = gson.toJson(list, listType);
-                if (user != null ) {
+                String suppressingID = list.get(selectedItemId);
+                list2.remove(suppressingID);
+                String jsonResult = gson.toJson(list2, listType);
+                if (user != null) {
                     database.child(user.getUid()).setValue(jsonResult);
                 }
-                mListView.invalidateViews();
+                mainListView.invalidateViews();
                 return true;
             default:
                 return super.onContextItemSelected(item);
         }
     }
 
-    @Override
-    public void onClick(View v) {
-        Intent intent = new Intent(getContext(), CreateMenuActivity.class);
-        startActivity(intent);
-    }
+
 }
+
+

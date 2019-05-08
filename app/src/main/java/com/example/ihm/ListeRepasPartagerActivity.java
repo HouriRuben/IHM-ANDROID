@@ -1,20 +1,12 @@
 package com.example.ihm;
 
+import android.content.Context;
+import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.Fragment;
-import android.view.ContextMenu;
-import android.view.LayoutInflater;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.content.Intent;
 import android.util.Log;
-import android.widget.AdapterView;
-import android.widget.Button;
-import android.view.View.OnClickListener;
+import android.view.View;
 import android.widget.ListView;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -25,17 +17,18 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 
-
-public class FragmentHome extends Fragment implements OnClickListener {
+public class ListeRepasPartagerActivity extends AppCompatActivity {
     ListView mListView;
     ArrayList<MenuPlanified> list = new ArrayList<>();
     ArrayList<String> listshare = new ArrayList<>();
+    Context context;
 
     // Firebase
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -51,38 +44,42 @@ public class FragmentHome extends Fragment implements OnClickListener {
             .setPrettyPrinting()
             .create();
 
-
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
-        final View view = inflater.inflate(R.layout.fragment_home, container, false);
-        Button createrepasbutton = (Button) view.findViewById(R.id.createrepasbutton);
-        FloatingActionButton fab = view.findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getContext(), ListeRepasPartagerActivity.class);
-                startActivity(intent);
-            }
-        });
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_liste_repas_partager);
+        context = this;
+        final View rootView = getWindow().getDecorView().getRootView();
         if (user != null ) {
+            databaseshare.child(user.getUid()).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    final String json = dataSnapshot.getValue(String.class);
+                    if (json != null) {
+                        // Make the great list
+                        listshare = gson.fromJson(json, listTypeShare);
+                    } else {
+                        listshare = new ArrayList<>();
+                    }
+                    listshare.add(user.getUid());
 
                     list = new ArrayList<>();
-                        database.child(user.getUid()).addValueEventListener(new ValueEventListener() {
+                    for (int i = 0 ;i< listshare.size();i++) {
+                        database.child(listshare.get(i)).addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
                                 final String json = dataSnapshot.getValue(String.class);
                                 if (json != null) {
                                     // Make the great list
                                     List<MenuPlanified> listtamp = gson.fromJson(json, listType);
-                                    list.clear();
                                     list.addAll(listtamp);
                                     Collections.sort(list, new dateComparator());
                                     list = startListToday(list);
 
                                     // Prompt the great list
-                                    if (getActivity() != null) {
-                                        mListView = (ListView) view.findViewById(R.id.listrepas);
-                                        MenuPlanifiedAdapter repasAdapter = new MenuPlanifiedAdapter(getActivity(), list);
+                                    if (context != null) {
+                                        mListView = (ListView)rootView.findViewById(R.id.listmeandthem);
+                                        MenuPlanifiedAdapter repasAdapter = new MenuPlanifiedAdapter(context, list);
                                         mListView.setAdapter(repasAdapter);
 
                                     }
@@ -96,15 +93,21 @@ public class FragmentHome extends Fragment implements OnClickListener {
                                 Log.w("Firebase read ", "Failed to read value.", error.toException());
                             }
                         });
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError error) {
+                    // Failed to read value
+                    Log.w("Firebase read ", "Failed to read value.", error.toException());
+                }
+            });
 
 
 
 
 
         }
-        createrepasbutton.setOnClickListener(this);
-        return view;
-
     }
 
     private ArrayList<MenuPlanified> startListToday(ArrayList<MenuPlanified> list) {
@@ -124,39 +127,5 @@ public class FragmentHome extends Fragment implements OnClickListener {
         }
 
         return newList;
-    }
-
-    @Override
-    public void onClick(View v) {
-        Intent intent = new Intent(getContext(), CreateRepasActivity.class);
-        startActivity(intent);
-    }
-
-    @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-        super.onCreateContextMenu(menu, v, menuInfo);
-        MenuInflater inflater = getActivity().getMenuInflater();
-        inflater.inflate(R.menu.context_menu_menus, menu);
-    }
-
-    @Override
-    public boolean onContextItemSelected(MenuItem item) {
-        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-        int selectedItemId = (int) info.id;
-        switch (item.getItemId()) {
-            case R.id.cancel:
-                return false;
-            case R.id.delete:
-                MenuPlanified suppressingMenu = list.get(selectedItemId);
-                list.remove(suppressingMenu);
-                String jsonResult = gson.toJson(list, listType);
-                if (user != null) {
-                    database.child(user.getUid()).setValue(jsonResult);
-                }
-                mListView.invalidateViews();
-                return true;
-            default:
-                return super.onContextItemSelected(item);
-        }
     }
 }

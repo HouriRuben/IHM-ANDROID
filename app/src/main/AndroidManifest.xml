@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.ihm">
+
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -32,11 +33,14 @@
         <activity
             android:name=".CreateMenuActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".CreateRepasActivity"></activity>
+        <activity android:name=".CreateRepasActivity" />
 
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
+
+        <activity android:name=".ListeRepasPartagerActivity" />
+        <activity android:name=".ConsumptionActivity"></activity>
     </application>
 
 </manifest>

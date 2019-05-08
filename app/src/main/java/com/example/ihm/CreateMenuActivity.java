@@ -86,7 +86,7 @@ public class CreateMenuActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Enter the Data", Toast.LENGTH_SHORT).show();
                 } else {
 
-                    Menu menu = new Menu(Titre.getText().toString(),Entrée.getText().toString(),Plat.getText().toString(),Dessert.getText().toString(),Double.parseDouble(Calories.getText().toString()),Integer.parseInt(Prix.getText().toString()));
+                    Menu menu = new Menu(Titre.getText().toString(),Entrée.getText().toString(),Plat.getText().toString(),Dessert.getText().toString(),Double.parseDouble(Prix.getText().toString()),Integer.parseInt(Calories.getText().toString()));
                     list.add(menu);
                     String jsonResult = gson.toJson(list, listType);
 
