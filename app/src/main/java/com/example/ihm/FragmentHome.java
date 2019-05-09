@@ -1,6 +1,9 @@
 package com.example.ihm;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.view.ContextMenu;
@@ -30,17 +33,18 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
+import java.util.prefs.PreferenceChangeEvent;
 
 
 public class FragmentHome extends Fragment implements OnClickListener {
     ListView mListView;
     ArrayList<MenuPlanified> list = new ArrayList<>();
     ArrayList<String> listshare = new ArrayList<>();
+    Context context = getContext();
 
     // Firebase
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     DatabaseReference database = FirebaseDatabase.getInstance().getReference("repas");
-    DatabaseReference databaseshare = FirebaseDatabase.getInstance().getReference("partage");
 
     //Json
     final Type listType = new TypeToken<ArrayList<MenuPlanified>>(){}.getType();
@@ -65,7 +69,6 @@ public class FragmentHome extends Fragment implements OnClickListener {
             }
         });
         if (user != null ) {
-
                     list = new ArrayList<>();
                         database.child(user.getUid()).addValueEventListener(new ValueEventListener() {
                             @Override

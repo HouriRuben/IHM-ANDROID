@@ -95,8 +95,9 @@ public class MainActivity extends AppCompatActivity
             fragment = new FragmentDateConsumption();
 
         } else if (id == R.id.nav_connection) {
-            Intent intent = new Intent(getApplicationContext(),GoogleSignInActivity.class);
-            startActivity(intent);
+            fragment = new GoogleFragment();
+            //Intent intent = new Intent(getApplicationContext(),GoogleSignInActivity.class);
+            //startActivity(intent);
 
         } else if (id == R.id.nav_share) {
             fragment = new FragmentShare();
