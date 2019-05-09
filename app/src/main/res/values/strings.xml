@@ -22,6 +22,7 @@
     <string name="cr_er_un_repas">Créer un Repas</string>
     <string name="delete">Supprimer</string>
     <string name="cancel">Annuler</string>
+    <string name="bluetooth_devices">Appareils Bluetooth</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Accueil</string>

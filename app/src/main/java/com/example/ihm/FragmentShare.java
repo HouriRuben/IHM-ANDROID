@@ -1,6 +1,14 @@
 package com.example.ihm;
+
 import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothServerSocket;
+import android.bluetooth.BluetoothSocket;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -25,9 +33,13 @@ public class FragmentShare extends Fragment {
 
 
     public void handleBluetoothActivation(){
-        int REQUEST_ENABLE_BT = 0;
         Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
         startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
+    }
+
+    public void startBluetoothConnection(){
+        Intent intent = new Intent(getActivity(), BluetoothActivity.class);
+        startActivity(intent);
     }
 
     @Override
@@ -46,11 +58,6 @@ public class FragmentShare extends Fragment {
            }
        });
 
-
-
-
-
-
        return view;
     }
 
@@ -63,6 +70,8 @@ public class FragmentShare extends Fragment {
             public void onClick(View v) {
                 if(!bluetoothAdapter.isEnabled()){
                     handleBluetoothActivation();
+                } else {
+                    startBluetoothConnection();
                 }
             }
         });
@@ -73,10 +82,8 @@ public class FragmentShare extends Fragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data){
-        if(requestCode == REQUEST_ENABLE_BT){
-            if(resultCode == RESULT_OK){
-                System.out.println("OK");
-            }
+        if(requestCode == REQUEST_ENABLE_BT && resultCode == RESULT_OK){
+            startBluetoothConnection();
         }
     }
 
@@ -101,5 +108,4 @@ public class FragmentShare extends Fragment {
         startActivity(Intent.createChooser(intent,"Choisir l'Application pour l'envoi :"));
 
     }
-
 }
