@@ -87,9 +87,10 @@ public class FragmentHome extends Fragment implements OnClickListener {
                                         mListView = (ListView) view.findViewById(R.id.listrepas);
                                         MenuPlanifiedAdapter repasAdapter = new MenuPlanifiedAdapter(getActivity(), list);
                                         mListView.setAdapter(repasAdapter);
+                                        registerForContextMenu(mListView);
 
                                     }
-                                    registerForContextMenu(mListView);
+
                                 }
                             }
 

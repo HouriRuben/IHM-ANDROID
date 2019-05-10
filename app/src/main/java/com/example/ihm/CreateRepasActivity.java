@@ -61,8 +61,8 @@ public class CreateRepasActivity extends AppCompatActivity implements View.OnCli
         validerbutton.setOnClickListener(this);
 
         // Calendar
-        Date tamp = new Date();
-        date = new EasyDate(tamp.getDay(),tamp.getMonth(),tamp.getYear());
+
+        date = null;
         CalendarView calendar = (CalendarView) findViewById(R.id.simpleCalendarView);
         calendar.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
@@ -160,8 +160,8 @@ public class CreateRepasActivity extends AppCompatActivity implements View.OnCli
         switch (v.getId()) {
 
             case R.id.validerbutton:
-                if (clickedItem == null) {
-                    Toast.makeText(getApplicationContext(), "Choisisez le Menu ", Toast.LENGTH_SHORT).show();
+                if (clickedItem == null || date == null) {
+                    Toast.makeText(getApplicationContext(), "Entrez les données (DATE/MENU) ", Toast.LENGTH_SHORT).show();
                 } else {
                     MenuPlanified menuPlanified = new MenuPlanified(clickedItem.getNomMenu(),
                             clickedItem.getEntree(),
@@ -179,7 +179,6 @@ public class CreateRepasActivity extends AppCompatActivity implements View.OnCli
 
                     }
                     System.out.println("REPAS : " + jsonResult);
-                    Toast.makeText(getApplicationContext(), "Json : " + jsonResult, Toast.LENGTH_SHORT).show();
                     finish();
                 }
                 break;

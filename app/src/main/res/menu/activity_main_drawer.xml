@@ -17,9 +17,14 @@
             android:icon="@drawable/ic_menu_consumption"
             android:title="Consommation" />
         <item
+            android:id="@+id/nav_list"
+            android:icon="@drawable/ic_menu_list"
+            android:title="Liste de Course" />
+        <item
             android:id="@+id/nav_connection"
             android:icon="@drawable/ic_menu_connection"
             android:title="Déconnexion" />
+
     </group>
 
     <item android:title="Communication">

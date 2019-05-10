@@ -34,12 +34,18 @@
 
     <Button
         android:id="@+id/validerbutton"
-        style="@style/FirebaseUI.Button"
         android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/roundbutton2"
+        android:fontFamily="@font/work_sans_semibold"
         android:text="Valider"
         android:textAlignment="center"
+        android:textAllCaps="false"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
@@ -47,11 +53,17 @@
 
     <Button
         android:id="@+id/nouveaumenubutton"
-        style="@style/FirebaseUI.Button"
         android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/roundbutton3"
+        android:fontFamily="@font/work_sans_semibold"
         android:text="Nouveau Menu"
+        android:textAllCaps="false"
+        android:textColor="@color/browser_actions_bg_grey"
+        android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/validerbutton"
         app:layout_constraintStart_toStartOf="parent" />

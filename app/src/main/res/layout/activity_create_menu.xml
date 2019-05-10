@@ -97,13 +97,12 @@
 
     <Button
         android:id="@+id/button"
-        style="@style/FirebaseUI.Button"
         android:layout_width="218dp"
         android:layout_height="55dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="4dp"
+        android:layout_marginBottom="24dp"
+        android:background="@drawable/roundbutton"
         android:text="Valider"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

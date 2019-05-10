@@ -2,5 +2,8 @@
 <resources>
     <array name="preloaded_fonts" translatable="false">
         <item>@font/advent_pro_bold</item>
+        <item>@font/amiko</item>
+        <item>@font/doppio_one</item>
+        <item>@font/work_sans_semibold</item>
     </array>
 </resources>

@@ -95,7 +95,6 @@ public class CreateMenuActivity extends AppCompatActivity {
 
                     }
 
-                    Toast.makeText(getApplicationContext(), "Json : " + jsonResult, Toast.LENGTH_SHORT).show();
                     finish();
                 }
             }

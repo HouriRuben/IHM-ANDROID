@@ -102,6 +102,9 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_share) {
             fragment = new FragmentShare();
 
+        } else if (id == R.id.nav_list) {
+        fragment = new DateListFragment();
+
         } else if (id == R.id.nav_receve) {
             fragment = new ReceveFragment();
         }
