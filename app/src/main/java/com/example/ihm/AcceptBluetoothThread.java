@@ -31,9 +31,7 @@ public class AcceptBluetoothThread extends Thread {
         BluetoothSocket btSocket = null;
         while(true){
             try{
-                System.out.println("ACCEPTING DEVICEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE");
                 btSocket = btServerSocket.accept();
-                System.out.println("accepted device");
             } catch(IOException e){
                 Log.e("BT_ACCEPT_ERROR", "Socket accept method failed", e);
                 break;
@@ -44,7 +42,6 @@ public class AcceptBluetoothThread extends Thread {
                 connectedThread.start();
                 try{
                     connectedThread.join();
-                    System.out.println("connected thread joined");
                 } catch(InterruptedException e){
                     Log.e("BT_ACCEPT_ERROR", "Thread join failed", e);
                 }

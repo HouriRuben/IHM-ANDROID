@@ -50,17 +50,24 @@ public class ConnectedThread extends Thread {
     }
 
     public void run() {
-        mmBuffer = new byte[1024];
-        int numBytes; // bytes returned from read()
+        mmBuffer = new byte[131072];
+        int numBytes = 0; // bytes returned from read()
         // Keep listening to the InputStream until an exception occurs.
 
         try {
-            Looper currLooper = Looper.myLooper();
-            if(currLooper == null){
-                Looper.prepare();
-            }
             // Read from the InputStream.
-            numBytes = mmInStream.read(mmBuffer);
+            boolean hasSleeped = false;
+            for(int i =0; i<10; i++){
+                if(mmInStream.available() > 0) {
+                    numBytes = mmInStream.read(mmBuffer);
+                    hasSleeped = false;
+                } else {
+                    if(hasSleeped) break;
+                    Thread.sleep(2000);
+                    hasSleeped = true;
+                }
+            }
+
             byte[] readedMsgBytes = Arrays.copyOfRange(mmBuffer,0, numBytes);
             String readedMsg = new String(readedMsgBytes);
             // Send the obtained bytes to the UI activity.
@@ -74,20 +81,11 @@ public class ConnectedThread extends Thread {
             Log.d("DEVICE_READ_ERROR", "Input stream was disconnected", e);
 
         }
-        Looper currLooper = Looper.myLooper();
-        if(currLooper != null){
-            currLooper.quit();
-        }
-        System.out.println("connected thread ended");
     }
 
     // Call this from the main activity to send data to the remote device.
-    public void write(byte[] bytes, BluetoothDevice device) {
+    public void write(byte[] bytes) {
         try {
-            Looper currLooper = Looper.myLooper();
-            if(currLooper == null){
-                Looper.prepare();
-            }
             mmOutStream.write(bytes);
 
             // Share the sent message with the UI activity.
@@ -105,11 +103,6 @@ public class ConnectedThread extends Thread {
                     "Couldn't send data to the other device");
             writeErrorMsg.setData(bundle);
             mHandler.sendMessage(writeErrorMsg);
-
-            Looper currLooper = Looper.myLooper();
-            if(currLooper != null){
-                currLooper.quit();
-            }
         }
     }
 

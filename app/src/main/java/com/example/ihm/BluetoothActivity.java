@@ -17,6 +17,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
@@ -27,6 +28,18 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Set;
 
@@ -53,32 +66,49 @@ public class BluetoothActivity extends AppCompatActivity {
 
     ListView mListView;
 
+    ArrayList<MenuPlanified> menusPlanified = new ArrayList<>();
+
+    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+    DatabaseReference database = FirebaseDatabase.getInstance().getReference("repas");
+    final Type listType = new TypeToken<ArrayList<MenuPlanified>>(){}.getType();
+    final Gson gson = new GsonBuilder()
+            .serializeNulls()
+            .disableHtmlEscaping()
+            .setPrettyPrinting()
+            .create();
+
     @SuppressLint("HandlerLeak")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bluetooth);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        initiateMenusPlanifiedList();
         mHandler = new Handler(){
             @Override
             public void handleMessage(Message msg){
                 if(msg.what == MessageConstants.MESSAGE_READ){
-                    String receivedMessage = msg.getData().getString(BluetoothActivity.bundleReadMessageKey);
+                    final String receivedMessage = msg.getData().getString(BluetoothActivity.bundleReadMessageKey);
+                    ArrayList<MenuPlanified> menusList = BluetoothActivity.this.gson.fromJson(receivedMessage, BluetoothActivity.this.listType);
+                    BluetoothActivity.this.menusPlanified.addAll(menusList);
                     AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(BluetoothActivity.this);
                     alertDialogBuilder.setTitle("Réception de données")
-                            .setMessage("Voulez-vous recevoir le message " + receivedMessage + " ?")
+                            .setMessage("Acceptez-vous les " + menusList.size() + " menus reçu(s) ?")
                             .setPositiveButton("Oui", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    Toast toast = Toast.makeText(getApplicationContext(), "Trop bien", Toast.LENGTH_SHORT);
+                                    Toast toast = Toast.makeText(getApplicationContext(), "Vous avez maintenant accès aux menus partagés", Toast.LENGTH_SHORT);
                                     toast.show();
+                                    if (user != null) {
+                                        String jsonResult = BluetoothActivity.this.gson.toJson(BluetoothActivity.this.menusPlanified,BluetoothActivity.this.listType);
+                                        BluetoothActivity.this.database.child(user.getUid()).setValue(jsonResult);
+                                    }
                                 }
                             })
                             .setNegativeButton("Non", null);
                     AlertDialog alertDialog = alertDialogBuilder.create();
                     alertDialog.show();
                 } else if(msg.what == MessageConstants.MESSAGE_WRITE){
-                    System.out.println("Message sent");
                     BluetoothActivity.this.loadingDialog.dismiss();
                 }
 
@@ -110,7 +140,7 @@ public class BluetoothActivity extends AppCompatActivity {
                                 if(AcceptBluetoothThread.getServerSocket() != null){
                                     ConnectBluetoothThread connectThread = new ConnectBluetoothThread(btDevices.get(devicePosition), mHandler);
                                     connectThread.start();
-                                    BluetoothActivity.this.loadingDialog = ProgressDialog.show(BluetoothActivity.this, "Coucou", "Blabla", true);
+                                    BluetoothActivity.this.loadingDialog = ProgressDialog.show(BluetoothActivity.this, "Partage des menus", "Envoi en cours ...", true);
                                 } else {
                                     Toast errToast = Toast.makeText(getApplicationContext(), "Impossible de se connecter à l'appareil", Toast.LENGTH_SHORT);
                                     errToast.show();
@@ -165,6 +195,26 @@ public class BluetoothActivity extends AppCompatActivity {
         Intent discoverableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
         discoverableIntent.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, DISCOVERABILITY_DURATION);
         startActivityForResult(discoverableIntent, ACTION_REQUEST_DISCOVERABLE);
+    }
+
+    public void initiateMenusPlanifiedList(){
+        if (user != null ) {
+            database.child(user.getUid()).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    final String json = dataSnapshot.getValue(String.class);
+                    if (json != null) {
+                        menusPlanified = gson.fromJson(json, listType);
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError error) {
+                    // Failed to read value
+                    Log.w("Firebase read ", "Failed to read value.", error.toException());
+                }
+            });
+        }
     }
 
     @Override

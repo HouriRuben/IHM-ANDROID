@@ -61,6 +61,7 @@ public class FragmentMenus extends Fragment implements OnClickListener {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     final String json = dataSnapshot.getValue(String.class);
+                    System.out.println("json received : " + json);
                     if (json != null) {
                         list = gson.fromJson(json, listType);
                         mListView = (ListView) fragmentView.findViewById(R.id.listmenus);

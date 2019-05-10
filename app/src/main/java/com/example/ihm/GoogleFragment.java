@@ -2,6 +2,7 @@ package com.example.ihm;
 
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -46,6 +47,10 @@ public class GoogleFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        if(user == null){
+            Intent intent = new Intent(getActivity(), GoogleSignInActivity.class);
+            startActivity(intent);
+        }
         final View view = inflater.inflate(R.layout.fragment_google, container, false);
                 Profil = (ImageView) view.findViewById(R.id.imageView3);
                 Name = (TextView) view.findViewById(R.id.Name);

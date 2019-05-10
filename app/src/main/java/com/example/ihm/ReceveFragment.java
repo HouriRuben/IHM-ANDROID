@@ -130,7 +130,6 @@ public class ReceveFragment extends Fragment {
 
         if (user != null ) {
             database.child(user.getUid()).setValue(jsonResult);
-
         }
 
         ID.getText().clear();
