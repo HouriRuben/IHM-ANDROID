@@ -87,18 +87,18 @@
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab_calendar"
-        app:maxImageSize="35dp"
-        app:rippleColor="@color/colorPrimary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginEnd="96dp"
         android:layout_marginBottom="16dp"
-        app:backgroundTint="@color/grey_100"
         android:background="@android:color/background_light"
         android:src="@drawable/ic_round_calendar_today_24px_black"
-        android:layout_width="65dp"
-        android:layout_height="67dp"
+        app:backgroundTint="@color/grey_100"
+        app:fabCustomSize="@android:dimen/notification_large_icon_width"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        />
+        app:maxImageSize="35dp"
+        app:rippleColor="@color/colorPrimary" />
 
     <TextView
         android:id="@+id/resultSendCalendar"
