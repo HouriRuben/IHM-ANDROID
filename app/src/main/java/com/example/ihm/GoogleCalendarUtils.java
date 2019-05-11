@@ -18,6 +18,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -219,6 +220,7 @@ public class GoogleCalendarUtils {
 
 
 
-        ((TextView) v.findViewById(R.id.resultSendCalendar)).setText("Repas planifiés envoyés au Calendar :)");
+        //((TextView) v.findViewById(R.id.resultSendCalendar)).setText("Repas planifiés envoyés au Calendar :)");
+        Toast.makeText(callerCtx,"Repas ajouté(s) à Google Agenda", Toast.LENGTH_SHORT).show();
     }
 }
