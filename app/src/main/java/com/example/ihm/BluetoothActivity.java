@@ -54,7 +54,6 @@ public class BluetoothActivity extends AppCompatActivity {
     public static String bundleReadMessageKey = "READ_MSG_KEY";
 
     BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-    BluetoothSocket btSocket = null;
     ArrayList<BluetoothDevice> pairedDevices;
     static ArrayList<BluetoothDevice> btDevices;
     int ACTION_REQUEST_DISCOVERABLE = 2;

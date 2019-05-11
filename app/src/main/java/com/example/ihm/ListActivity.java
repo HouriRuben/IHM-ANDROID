@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -70,9 +71,10 @@ public class ListActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        context = this;
         super.onCreate(savedInstanceState);
+        context = this;
         setContentView(R.layout.activity_list);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         Valider = (Button) findViewById(R.id.button);
 
         LISTECOURSE = (findViewById(R.id.imageView4));
@@ -273,6 +275,14 @@ public class ListActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+        }
 
-
+        return super.onOptionsItemSelected(item);
+    }
 }

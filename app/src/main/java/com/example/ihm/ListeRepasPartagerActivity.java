@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
 
@@ -48,6 +49,7 @@ public class ListeRepasPartagerActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_liste_repas_partager);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         context = this;
         final View rootView = getWindow().getDecorView().getRootView();
         if (user != null ) {
@@ -127,5 +129,15 @@ public class ListeRepasPartagerActivity extends AppCompatActivity {
         }
 
         return newList;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
