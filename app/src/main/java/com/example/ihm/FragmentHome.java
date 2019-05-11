@@ -107,6 +107,23 @@ public class FragmentHome extends Fragment implements OnClickListener {
 
         }
         createrepasbutton.setOnClickListener(this);
+
+        FloatingActionButton fab_calendar = view.findViewById(R.id.fab_calendar);
+        final View viewToCallback = view;
+
+        GoogleCalendarUtils.init(getActivity().getApplicationContext());
+        GoogleCalendarUtils.getDataFromCalendarTable(
+                viewToCallback, user.getEmail());
+        fab_calendar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                GoogleCalendarUtils.createDataToSend(list);
+
+                GoogleCalendarUtils.mainProcess(viewToCallback);
+            }
+        });
+
         return view;
 
     }
