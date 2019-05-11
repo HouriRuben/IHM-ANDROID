@@ -226,7 +226,9 @@ public class BluetoothActivity extends AppCompatActivity {
 
     public void onDestroy(){
         super.onDestroy();
-        bluetoothServerThread.cancel();
+        if(bluetoothServerThread.isAlive()){
+            bluetoothServerThread.cancel();
+        }
         unregisterReceiver(receiver);
     }
 }
