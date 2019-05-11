@@ -113,7 +113,7 @@ public class FragmentHome extends Fragment implements OnClickListener {
 
         GoogleCalendarUtils.init(getActivity().getApplicationContext());
         GoogleCalendarUtils.getDataFromCalendarTable(
-                viewToCallback, user.getEmail());
+                viewToCallback, user.getEmail(), getActivity());
         fab_calendar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

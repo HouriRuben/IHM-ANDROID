@@ -1,14 +1,18 @@
 package com.example.ihm;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.CalendarContract;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -47,7 +51,7 @@ public class GoogleCalendarUtils {
     private static SharedPreferences.Editor editor;
     private static Context callerCtx;
 
-    public static void getDataFromCalendarTable(View view, String email) {
+    public static void getDataFromCalendarTable(View view, String email, Activity act) {
         Cursor cur = null;
         ContentResolver cr = callerCtx.getContentResolver();
         Uri uri = CalendarContract.Calendars.CONTENT_URI;
@@ -57,6 +61,14 @@ public class GoogleCalendarUtils {
         String[] selectionArgs = new String[]{email, "com.google", email};
 
         cur = cr.query(uri, EVENT_PROJECTION, selection, selectionArgs, null);
+        if ((ActivityCompat.checkSelfPermission(callerCtx, Manifest.permission.READ_CALENDAR)
+                != PackageManager.PERMISSION_GRANTED) ||
+                (ActivityCompat.checkSelfPermission(callerCtx, Manifest.permission.READ_CALENDAR)
+                        != PackageManager.PERMISSION_GRANTED)
+        ) {
+            ActivityCompat.requestPermissions(act, new String[]{Manifest.permission.READ_CALENDAR}, 1);
+            ActivityCompat.requestPermissions(act, new String[]{Manifest.permission.WRITE_CALENDAR}, 1);
+        }
 
         while (cur.moveToNext()) {
             calID = cur.getInt(PROJECTION_ID_INDEX);
