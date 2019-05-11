@@ -60,15 +60,16 @@ public class GoogleCalendarUtils {
                 + CalendarContract.Calendars.OWNER_ACCOUNT + " = ?))";
         String[] selectionArgs = new String[]{email, "com.google", email};
 
-        cur = cr.query(uri, EVENT_PROJECTION, selection, selectionArgs, null);
         if ((ActivityCompat.checkSelfPermission(callerCtx, Manifest.permission.READ_CALENDAR)
-                != PackageManager.PERMISSION_GRANTED) ||
-                (ActivityCompat.checkSelfPermission(callerCtx, Manifest.permission.READ_CALENDAR)
-                        != PackageManager.PERMISSION_GRANTED)
-        ) {
+                != PackageManager.PERMISSION_GRANTED)) {
             ActivityCompat.requestPermissions(act, new String[]{Manifest.permission.READ_CALENDAR}, 1);
+        } else if (ActivityCompat.checkSelfPermission(callerCtx, Manifest.permission.WRITE_CALENDAR)
+                != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(act, new String[]{Manifest.permission.WRITE_CALENDAR}, 1);
+            return;
         }
+        cur = cr.query(uri, EVENT_PROJECTION, selection, selectionArgs, null);
+
 
         while (cur.moveToNext()) {
             calID = cur.getInt(PROJECTION_ID_INDEX);
