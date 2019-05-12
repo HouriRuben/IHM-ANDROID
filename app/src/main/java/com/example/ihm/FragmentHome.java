@@ -1,10 +1,13 @@
 package com.example.ihm;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
@@ -110,12 +113,21 @@ public class FragmentHome extends Fragment implements OnClickListener {
         FloatingActionButton fab_calendar = view.findViewById(R.id.fab_calendar);
         final View viewToCallback = view;
 
-        GoogleCalendarUtils.init(getActivity().getApplicationContext());
-        GoogleCalendarUtils.getDataFromCalendarTable(
-                viewToCallback, user.getEmail(), getActivity());
+        if ((ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_CALENDAR)
+                != PackageManager.PERMISSION_GRANTED)) {
+            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.READ_CALENDAR}, 1);
+        } else if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_CALENDAR)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.WRITE_CALENDAR}, 1);
+        }
+
+
         fab_calendar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                GoogleCalendarUtils.init(getActivity().getApplicationContext());
+                GoogleCalendarUtils.getDataFromCalendarTable(
+                        viewToCallback, user.getEmail(), getActivity());
 
                 GoogleCalendarUtils.createDataToSend(list);
 
