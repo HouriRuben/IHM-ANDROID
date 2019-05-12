@@ -218,9 +218,6 @@ public class GoogleCalendarUtils {
         }
         newEventsIDs.clear();
 
-
-
-        //((TextView) v.findViewById(R.id.resultSendCalendar)).setText("Repas planifiés envoyés au Calendar :)");
         Toast.makeText(callerCtx,"Repas ajouté(s) à Google Agenda", Toast.LENGTH_SHORT).show();
     }
 }
