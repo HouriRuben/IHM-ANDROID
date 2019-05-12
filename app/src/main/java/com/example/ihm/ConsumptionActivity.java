@@ -102,14 +102,14 @@ public class ConsumptionActivity extends AppCompatActivity {
         for (int i =0;i<listinterval.size();i++){
             Prixdb += listinterval.get(i).getPrix();
         }
-        Prix.setText("Total des Coûts : "+ Double.toString(Prixdb));
+        Prix.setText("Total des Coûts : "+ Double.toString(Prixdb) + " €");
     }
 
     private void SetKcal() {
         for (int i =0;i<listinterval.size();i++){
             Kcalint += listinterval.get(i).getCalories();
         }
-        Kcal.setText("Total des Calories : "+ Integer.toString(Kcalint));
+        Kcal.setText("Total des Calories : "+ Integer.toString(Kcalint)+ " kcal");
     }
 
     private void intervalDate() {

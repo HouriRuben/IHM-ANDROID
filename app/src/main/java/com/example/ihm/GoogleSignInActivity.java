@@ -58,8 +58,6 @@ public class GoogleSignInActivity extends BaseActivity implements
     // [END declare_auth]
 
     private GoogleSignInClient mGoogleSignInClient;
-    private TextView mStatusTextView;
-    private TextView mDetailTextView;
     private Context context;
     private ImageView MenuManagement;
 
@@ -70,7 +68,6 @@ public class GoogleSignInActivity extends BaseActivity implements
 
         context = this;
 
-        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
 
         // Button listeners
         findViewById(R.id.signInButton).setOnClickListener(this);

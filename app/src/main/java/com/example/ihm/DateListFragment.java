@@ -136,20 +136,21 @@ public class DateListFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), ListActivity.class);
-                String[] tabdate1 = clickedItem1.split("/");
-                String[] tabdate2 = clickedItem2.split("/");
-                int comparedate1 = (Integer.parseInt(tabdate1[2]) * 2000) + (Integer.parseInt(tabdate1[1]) * 100) + Integer.parseInt(tabdate1[0]);
-                int comparedate2 = (Integer.parseInt(tabdate2[2]) * 2000) + (Integer.parseInt(tabdate2[1]) * 100) + Integer.parseInt(tabdate2[0]);
-                if (comparedate2 < comparedate1) {
-                    if (context != null) {
-                        Toast.makeText(context, "Date 2 < Date 1 : Impossible ", Toast.LENGTH_SHORT).show();
+                if (clickedItem1 != null || clickedItem2 != null ) {
+                    String[] tabdate1 = clickedItem1.split("/");
+                    String[] tabdate2 = clickedItem2.split("/");
+                    int comparedate1 = (Integer.parseInt(tabdate1[2]) * 2000) + (Integer.parseInt(tabdate1[1]) * 100) + Integer.parseInt(tabdate1[0]);
+                    int comparedate2 = (Integer.parseInt(tabdate2[2]) * 2000) + (Integer.parseInt(tabdate2[1]) * 100) + Integer.parseInt(tabdate2[0]);
+                    if (comparedate2 < comparedate1) {
+                        if (context != null) {
+                            Toast.makeText(context, "Date 2 < Date 1 : Impossible ", Toast.LENGTH_SHORT).show();
+                        }
+                    } else {
+                        intent.putExtra("firstdate", comparedate1);
+                        intent.putExtra("seconddate", comparedate2);
+                        startActivity(intent);
                     }
-                } else {
-                    intent.putExtra("firstdate", comparedate1);
-                    intent.putExtra("seconddate", comparedate2);
-                    startActivity(intent);
                 }
-
 
             }
         });
