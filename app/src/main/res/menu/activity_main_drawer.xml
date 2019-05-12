@@ -24,6 +24,10 @@
             android:id="@+id/nav_connection"
             android:icon="@drawable/ic_menu_connection"
             android:title="Déconnexion" />
+        <item
+            android:id="@+id/nav_twitter"
+            android:icon="@drawable/ic_menu_twitter"
+            android:title="Recettes" />
 
     </group>
 

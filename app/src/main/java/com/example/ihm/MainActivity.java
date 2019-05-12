@@ -104,6 +104,9 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_receve) {
             fragment = new ReceveFragment();
         }
+        else if (id == R.id.nav_twitter) {
+            fragment = new TwitterFragment();
+        }
 
         if (fragment != null) {
             FragmentManager fm = getSupportFragmentManager();
